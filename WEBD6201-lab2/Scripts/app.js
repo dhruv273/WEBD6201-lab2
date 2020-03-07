@@ -1,3 +1,8 @@
+/*
+Full Name = Dhruv jayeshbhai vyas
+Student ID = 100734385
+Date Completed = 5-march-2020.
+*/
 class Contact
 {
     constructor(contactName = "", emailAddress = "", contactNumber = "", contactMessage = "")
@@ -9,7 +14,17 @@ class Contact
     }
 }
 
-
+class User
+{
+    constructor(FirstName = "", lastName = "", emailAddress = "", password = "" , confirmPassword = "" )
+    {
+        this.FirstName = FirstName;
+        this.lastName = lastName;
+        this.emailAddress=emailAddress;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
+}
 
 
 "use strict";
@@ -22,7 +37,7 @@ let app;
     // Declare Function Variables here...
     console.log("%cDeclaring Variables", "color: red;")
     let contactObject = new Contact();
-
+    let UserObject = new User();
     /**
      * Variable initialization in this function
      *
@@ -99,6 +114,11 @@ let app;
         });
     }
 
+
+    $("#errorMessage").hide();
+    $("#contactName").select();
+
+
     function DisplayProductsContent()
     {
         document.title = "WEBD6201 - Products";
@@ -115,7 +135,7 @@ let app;
     }
 
     function DisplayContactContent()
-    {
+    { 
         document.title = "WEBD6201 - Contact Us";
         function clearForm()
         {
@@ -140,9 +160,7 @@ let app;
             }
         }
 
-        $("#errorMessage").hide();
-        $("#contactName").select();
-
+       
         // Contact Name Events
         $("#contactName").blur((e)=>
         {
@@ -233,6 +251,9 @@ let app;
         });
     }
 
+    
+
+    
     function DisplayProjectsContent()
     {
         document.title = "WEBD6201 - Projects";
@@ -258,8 +279,89 @@ let app;
     function DisplayRegisterContent()
     {
         document.title = "WEBD6201 - Register";
-    }
 
+        function validateInput(selector, condition, errorMessage)
+        {
+            if(condition)
+            {
+                $("#errorMessage").show();
+                $("#errorMessage").text(errorMessage);
+                $(selector).select();
+                $(selector).css("border", "2px solid red");
+            }
+            else
+            {
+                $("#errorMessage").hide();
+                $(selector).css("border", "1px solid #ced4da");
+            }
+        }
+        
+    
+      //this shows the error message for the first name.
+      $("#FirstName").blur((e)=>
+      {
+          validateInput("#FirstName",( $("#FirstName").val().length < 2),"First Name is Too Short");
+      });
+      //this shows the error message for the last name.
+      $("#lastName").blur((e)=>
+      {
+          validateInput("#lastName",( $("#lastName").val().length < 2),"Last Name is Too Short");
+      });
+         //this will hide the error message tag.
+        //$("#errorMessage").hide();
+       // $("#Firstname").select();
+
+        $("#FirstName").focus((e)=>
+        {
+        $("#FirstName").select();
+        console.log("focus");
+        });
+    }
+     
+
+    // Email Events
+    $("#emailAddress").blur((e)=>
+    {
+        validateInput("#emailAddress",($("#emailAddress").val().length < 8) || (!$("#emailAddress").val().includes("@")),"Invalid Email Address");
+    });
+
+    $("#emailAddress").focus((e)=>
+    {
+        $("#emailAddress").select();
+    });
+    
+    $("#submitButton").click((e)=>
+    {
+        if(document.getElementById("registerForm").checkValidity() == false)
+        {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("form not valid");
+        }
+
+        e.preventDefault();
+        let FirstName = $("#FirstName").val();
+        let lastName = $("#lastName").val();
+        let emailAddress = $("#emailAddress").val();
+        let password = $("#password").val();
+        let confirmPassword = $("#confirmPassword").val();
+
+        console.log(`First Name: ${FirstName}`);
+        console.log(`last Name: ${lastName}`);
+        console.log(`email Address: ${emailAddress}`);
+        console.log(`Password: ${password}`);
+        console.log(`Confirm Password: ${confirmPassword}`);
+
+        UserObject.FirstName = FirstName;
+        UserObject.lastName = lastName;
+        UserObject.emailAddress = emailAddress;
+        UserObject.password = password;
+        UserObject.confirmPassword = confirmPassword;
+
+        console.log(UserObject);
+
+        
+    });
     /**
      * Main Program entry point is here
      *
